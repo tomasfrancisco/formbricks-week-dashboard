@@ -9,7 +9,6 @@ import {
   SelectValue,
 } from "./ui/select";
 import { Input } from "./ui/input";
-import { DatePickerRange } from "@/modules/date-picker-range/date-picker-range";
 import { NewDashboardButton } from "@/modules/new-dashboard-button/new-dashboard-button";
 
 interface DashboardsListBarProps {
@@ -50,7 +49,17 @@ export function DashboardsListBar({ actions = [] }: DashboardsListBarProps) {
             </SelectContent>
           </Select>
         </div>
-        <DatePickerRange />
+        <Select>
+          <SelectTrigger className="w-[180px]">
+            <SelectValue placeholder="Sort by" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              <SelectItem value="last-updated">Last updated</SelectItem>
+              <SelectItem value="last-created">Last created</SelectItem>
+            </SelectGroup>
+          </SelectContent>
+        </Select>
       </div>
     </div>
   );

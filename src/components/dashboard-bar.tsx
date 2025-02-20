@@ -1,4 +1,4 @@
-import { ArrowLeft, PlusIcon } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import { Button } from "./ui/button";
 import { DashboardBreadcrumb } from "./dashboard-breadcrumb";
 import { Separator } from "./ui/separator";
@@ -12,7 +12,9 @@ import {
   SelectValue,
 } from "./ui/select";
 import { Input } from "./ui/input";
-import { DatePickerRange } from "@/modules/date-picker-range/date-picker-range";
+import { DatePickerRange } from "@/components/date-picker-range/date-picker-range";
+import Link from "next/link";
+import { AddChartButton } from "@/modules/add-chart-button";
 
 interface DashboardBarProps {
   /**
@@ -27,16 +29,16 @@ export function DashboardBar({ actions = [] }: DashboardBarProps) {
       <div className="flex flex-col">
         <div className="flex space-between items-center mb-2">
           <div className="flex gap-7 items-center w-full">
-            <Button variant="secondary">
-              <ArrowLeft /> Back
+            <Button variant="secondary" asChild>
+              <Link href="/">
+                <ArrowLeft /> Back
+              </Link>
             </Button>
             <DashboardBreadcrumb />
           </div>
           <div className="flex items-center">
             {/* Actions */}
-            <Button>
-              Add Chart <PlusIcon />
-            </Button>
+            <AddChartButton onAdd={() => {}} />
             {...actions}
           </div>
         </div>
