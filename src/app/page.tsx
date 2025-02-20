@@ -1,33 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Plus, MoreHorizontal, LayoutDashboard } from "lucide-react";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import Link from "next/link";
+
+import { DashboardCard } from "@/components/dashboard-card/dashboard-card";
+import { NewDashboardButton } from "@/modules/new-dashboard-button/new-dashboard-button";
 
 interface Dashboard {
   id: string;
@@ -89,115 +65,22 @@ export default function DashboardsPage() {
     setDashboards(dashboards.filter((dashboard) => dashboard.id !== id));
   };
 
-  return <h1>hello</h1>;
-
   return (
     <div className="container py-8">
       <div className="flex items-center justify-between mb-8">
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight">Dashboards</h1>
-          <p className="text-muted-foreground mt-2">
-            Create and manage your analytics dashboards
-          </p>
-        </div>
-        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-          <DialogTrigger asChild>
-            <Button>
-              <Plus className="mr-2 h-4 w-4" />
-              New Dashboard
-            </Button>
-          </DialogTrigger>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>Create New Dashboard</DialogTitle>
-              <DialogDescription>
-                Give your dashboard a name to get started.
-              </DialogDescription>
-            </DialogHeader>
-            <div className="grid gap-4 py-4">
-              <div className="grid gap-2">
-                <Label htmlFor="name">Dashboard name</Label>
-                <Input
-                  id="name"
-                  value={newDashboardName}
-                  onChange={(e) => setNewDashboardName(e.target.value)}
-                  placeholder="e.g., Product Analytics"
-                />
-              </div>
-            </div>
-            <DialogFooter>
-              <Button variant="outline" onClick={() => setIsDialogOpen(false)}>
-                Cancel
-              </Button>
-              <Button onClick={createDashboard}>Create Dashboard</Button>
-            </DialogFooter>
-          </DialogContent>
-        </Dialog>
+        <NewDashboardButton onCreate={() => {}} />
       </div>
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="flex flex-wrap gap-6">
         {dashboards.map((dashboard) => (
-          <Card key={dashboard.id} className="relative">
-            <CardHeader>
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-muted/50">
-                    <LayoutDashboard className="h-5 w-5 text-muted-foreground" />
-                  </div>
-                  <CardTitle className="truncate">{dashboard.name}</CardTitle>
-                </div>
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className="absolute right-4 top-4"
-                    >
-                      <MoreHorizontal className="h-4 w-4" />
-                      <span className="sr-only">Open menu</span>
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end">
-                    <DropdownMenuItem asChild>
-                      <Link href={`/dashboard/${dashboard.id}`}>
-                        View Dashboard
-                      </Link>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem>Rename</DropdownMenuItem>
-                    <DropdownMenuItem
-                      className="text-destructive focus:text-destructive"
-                      onClick={() => deleteDashboard(dashboard.id)}
-                    >
-                      Delete
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              </div>
-              <CardDescription className="mt-2">
-                {dashboard.description}
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="flex items-center justify-between text-sm text-muted-foreground">
-                <div className="flex items-center gap-1">
-                  <span>Created by </span>
-                  <span className="font-medium text-foreground">
-                    {dashboard.createdBy.name}
-                  </span>
-                </div>
-                <div>
-                  Last updated{" "}
-                  {new Date(dashboard.lastUpdated).toLocaleDateString(
-                    undefined,
-                    {
-                      month: "short",
-                      day: "numeric",
-                      year: "numeric",
-                    }
-                  )}
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+          <DashboardCard
+            href={`/dashboard/${dashboard.id}`}
+            key={dashboard.id}
+            createdBy={dashboard.createdBy.name}
+            description={dashboard.description}
+            lastUpdatedAt={dashboard.lastUpdated}
+            onDelete={() => deleteDashboard(dashboard.id)}
+            title={dashboard.name}
+          />
         ))}
       </div>
     </div>
