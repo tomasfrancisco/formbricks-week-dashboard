@@ -2,9 +2,9 @@
 
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
-import { MoreHorizontal } from 'lucide-react';
+import { CopyPlus, MoreVertical, SquarePen, Trash } from 'lucide-react';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -73,33 +73,43 @@ export default function DashboardPage() {
   return (
     <div className="grid gap-6 md:grid-cols-2">
       {charts.map((chart) => (
-        <Card key={chart.id} className="relative h-[400px] p-6">
-          <div className="absolute top-4 right-4 z-10">
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="icon">
-                  <MoreHorizontal className="h-4 w-4" />
-                  <span className="sr-only">Open menu</span>
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                <DropdownMenuItem onClick={() => {}}>Edit</DropdownMenuItem>
-                <DropdownMenuItem onClick={() => duplicateChart(chart)}>
-                  Duplicate
-                </DropdownMenuItem>
-                <DropdownMenuItem
-                  className="text-destructive focus:text-destructive"
-                  onClick={() => deleteChart(chart.id)}
-                >
-                  Delete
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </div>
-          <div className="h-full space-y-4">
-            <h3 className="font-semibold">{chart.name}</h3>
+        <Card key={chart.id} className="relative h-[400px]">
+          <CardHeader>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <CardTitle className="truncate group-hover:underline">
+                  {chart.name}
+                </CardTitle>
+              </div>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    className="absolute top-4 right-4"
+                  >
+                    <MoreVertical className="h-4 w-4" />
+                    <span className="sr-only">Open menu</span>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuItem onClick={() => {}}>
+                    <SquarePen className="text-current" /> Edit
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => duplicateChart(chart)}>
+                    <CopyPlus className="text-current" /> Duplicate
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => deleteChart(chart.id)}>
+                    <Trash className="text-current" />
+                    Delete
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
+          </CardHeader>
+          <CardContent>
             <div className="h-[300px]">{renderChart(chart)}</div>
-          </div>
+          </CardContent>
         </Card>
       ))}
     </div>

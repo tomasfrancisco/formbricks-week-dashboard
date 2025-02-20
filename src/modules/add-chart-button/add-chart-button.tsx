@@ -176,128 +176,131 @@ export function AddChartButton({ onAdd }: AddChartButtonProps) {
               </FeatureRadioButton>
             </RadioGroup>
           </div>
-          <div className="grid gap-2">
-            <Label>Data source</Label>
-            {chart?.chartStyle &&
-            (chart.chartStyle === 'bar' || chart.chartStyle === 'pie') ? (
-              <Select
-                value={chart.dataSource}
-                onValueChange={(value) =>
-                  setChart((previousChart) => ({
-                    ...previousChart,
-                    dataSource: value,
-                  }))
-                }
-              >
-                <SelectTrigger>
-                  <SelectValue placeholder="Select a question" />
-                </SelectTrigger>
-                <SelectContent>
-                  {multipleChoiceQuestions.map((q) => (
-                    <SelectItem key={q.id} value={q.id}>
-                      <div className="flex flex-col">
-                        <span>{q.question}</span>
-                        <span className="text-muted-foreground text-xs">
-                          from {q.surveyName}
-                        </span>
-                      </div>
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            ) : chart?.chartStyle === 'distribution' ? (
-              <Popover open={isSelectOpen} onOpenChange={setIsSelectOpen}>
-                <PopoverTrigger asChild>
-                  <Button
-                    variant="outline"
-                    role="combobox"
-                    aria-expanded={isSelectOpen}
-                    className="w-full justify-between"
-                  >
-                    {!chart.dataSource || chart.dataSource?.length === 0
-                      ? 'Select surveys'
-                      : `${chart.dataSource.length} selected`}
-                    <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent className="w-[400px] p-0">
-                  <Command>
-                    <CommandInput placeholder="Search surveys..." />
-                    <CommandList>
-                      <CommandEmpty>No surveys found.</CommandEmpty>
-                      <CommandGroup>
-                        <CommandItem
-                          onSelect={() => {
-                            if (chart.dataSource?.length === surveys.length) {
-                              setChart((previousChart) => ({
-                                ...previousChart,
-                                dataSource: [],
-                              }));
-                            } else {
-                              setChart((previousChart) => ({
-                                ...previousChart,
-                                dataSource: surveys.map((s) => s.id),
-                              }));
-                            }
-                          }}
-                        >
-                          <Check
-                            className={cn(
-                              'mr-2 h-4 w-4',
-                              chart.dataSource?.length === surveys.length
-                                ? 'opacity-100'
-                                : 'opacity-0'
-                            )}
-                          />
-                          Select all
-                        </CommandItem>
-                        {surveys.map((survey) => (
+          {chart?.chartStyle && (
+            <div className="grid gap-2">
+              <Label>Data source</Label>
+              {chart?.chartStyle &&
+              (chart.chartStyle === 'bar' || chart.chartStyle === 'pie') ? (
+                <Select
+                  value={chart.dataSource}
+                  onValueChange={(value) =>
+                    setChart((previousChart) => ({
+                      ...previousChart,
+                      dataSource: value,
+                    }))
+                  }
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select a question" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {multipleChoiceQuestions.map((q) => (
+                      <SelectItem key={q.id} value={q.id}>
+                        <div className="flex flex-col">
+                          <span>{q.question}</span>
+                          <span className="text-muted-foreground text-xs">
+                            from {q.surveyName}
+                          </span>
+                        </div>
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              ) : chart?.chartStyle === 'distribution' ? (
+                <Popover open={isSelectOpen} onOpenChange={setIsSelectOpen}>
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant="outline"
+                      role="combobox"
+                      aria-expanded={isSelectOpen}
+                      className="w-full justify-between"
+                    >
+                      {!chart.dataSource || chart.dataSource?.length === 0
+                        ? 'Select surveys'
+                        : `${chart.dataSource.length} selected`}
+                      <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-[400px] p-0">
+                    <Command>
+                      <CommandInput placeholder="Search surveys..." />
+                      <CommandList>
+                        <CommandEmpty>No surveys found.</CommandEmpty>
+                        <CommandGroup>
                           <CommandItem
-                            key={survey.id}
                             onSelect={() => {
-                              setChart((previousChart) => {
-                                if (
-                                  previousChart?.chartStyle !== 'distribution'
-                                ) {
-                                  // Ignore if chart style is not distribution
-                                  return previousChart;
-                                }
-
-                                return {
+                              if (chart.dataSource?.length === surveys.length) {
+                                setChart((previousChart) => ({
                                   ...previousChart,
-                                  dataSource:
-                                    previousChart?.dataSource?.includes(
-                                      survey.id
-                                    )
-                                      ? previousChart?.dataSource?.filter(
-                                          (id) => id !== survey.id
-                                        )
-                                      : [
-                                          ...(previousChart?.dataSource ?? []),
-                                          survey.id,
-                                        ],
-                                };
-                              });
+                                  dataSource: [],
+                                }));
+                              } else {
+                                setChart((previousChart) => ({
+                                  ...previousChart,
+                                  dataSource: surveys.map((s) => s.id),
+                                }));
+                              }
                             }}
                           >
                             <Check
                               className={cn(
                                 'mr-2 h-4 w-4',
-                                chart?.dataSource?.includes(survey.id)
+                                chart.dataSource?.length === surveys.length
                                   ? 'opacity-100'
                                   : 'opacity-0'
                               )}
                             />
-                            {survey.name}
+                            Select all
                           </CommandItem>
-                        ))}
-                      </CommandGroup>
-                    </CommandList>
-                  </Command>
-                </PopoverContent>
-              </Popover>
-            ) : null}
-          </div>
+                          {surveys.map((survey) => (
+                            <CommandItem
+                              key={survey.id}
+                              onSelect={() => {
+                                setChart((previousChart) => {
+                                  if (
+                                    previousChart?.chartStyle !== 'distribution'
+                                  ) {
+                                    // Ignore if chart style is not distribution
+                                    return previousChart;
+                                  }
+
+                                  return {
+                                    ...previousChart,
+                                    dataSource:
+                                      previousChart?.dataSource?.includes(
+                                        survey.id
+                                      )
+                                        ? previousChart?.dataSource?.filter(
+                                            (id) => id !== survey.id
+                                          )
+                                        : [
+                                            ...(previousChart?.dataSource ??
+                                              []),
+                                            survey.id,
+                                          ],
+                                  };
+                                });
+                              }}
+                            >
+                              <Check
+                                className={cn(
+                                  'mr-2 h-4 w-4',
+                                  chart?.dataSource?.includes(survey.id)
+                                    ? 'opacity-100'
+                                    : 'opacity-0'
+                                )}
+                              />
+                              {survey.name}
+                            </CommandItem>
+                          ))}
+                        </CommandGroup>
+                      </CommandList>
+                    </Command>
+                  </PopoverContent>
+                </Popover>
+              ) : null}
+            </div>
+          )}
         </div>
         <DialogFooter>
           <Button variant="outline" onClick={() => setIsDialogOpen(false)}>
