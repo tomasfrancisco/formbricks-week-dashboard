@@ -39,6 +39,7 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "15.2.0-canary.66",
+    "eslint-plugin-tailwindcss": "^3.18.0",
     "eslint-plugin-unused-imports": "^4.1.4",
     "tailwindcss": "^4",
     "typescript": "^5"
