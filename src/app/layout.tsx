@@ -4,7 +4,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import { MainNav } from "@/components/main-nav";
-import { SidebarProvider } from "@/components/ui/sidebar";
+import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/app-sidebar";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -24,10 +24,10 @@ export default function RootLayout({
       <body className={cn(inter.className, "min-h-screen bg-background")}>
         <SidebarProvider>
           <AppSidebar />
-          <div className="relative flex min-h-screen flex-col">
+          <SidebarInset>
             <MainNav />
-            <main className="flex-1">{children}</main>
-          </div>
+            <div className="p-4">{children}</div>
+          </SidebarInset>
         </SidebarProvider>
       </body>
     </html>

@@ -1,8 +1,14 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import {
   Dialog,
   DialogContent,
@@ -11,23 +17,28 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Plus, MoreHorizontal, LayoutDashboard } from "lucide-react"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-import Link from "next/link"
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Plus, MoreHorizontal, LayoutDashboard } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import Link from "next/link";
 
 interface Dashboard {
-  id: string
-  name: string
-  description: string
+  id: string;
+  name: string;
+  description: string;
   createdBy: {
-    name: string
-    email: string
-  }
-  lastUpdated: string
-  icon?: string // For future customization
+    name: string;
+    email: string;
+  };
+  lastUpdated: string;
+  icon?: string; // For future customization
 }
 
 export default function DashboardsPage() {
@@ -52,9 +63,9 @@ export default function DashboardsPage() {
       },
       lastUpdated: "2024-02-12T09:00:00Z",
     },
-  ])
-  const [newDashboardName, setNewDashboardName] = useState("")
-  const [isDialogOpen, setIsDialogOpen] = useState(false)
+  ]);
+  const [newDashboardName, setNewDashboardName] = useState("");
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const createDashboard = () => {
     if (newDashboardName.trim()) {
@@ -67,23 +78,27 @@ export default function DashboardsPage() {
           email: "user@example.com",
         },
         lastUpdated: new Date().toISOString(),
-      }
-      setDashboards([...dashboards, newDashboard])
-      setNewDashboardName("")
-      setIsDialogOpen(false)
+      };
+      setDashboards([...dashboards, newDashboard]);
+      setNewDashboardName("");
+      setIsDialogOpen(false);
     }
-  }
+  };
 
   const deleteDashboard = (id: string) => {
-    setDashboards(dashboards.filter((dashboard) => dashboard.id !== id))
-  }
+    setDashboards(dashboards.filter((dashboard) => dashboard.id !== id));
+  };
+
+  return <h1>hello</h1>;
 
   return (
     <div className="container py-8">
       <div className="flex items-center justify-between mb-8">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">Dashboards</h1>
-          <p className="text-muted-foreground mt-2">Create and manage your analytics dashboards</p>
+          <p className="text-muted-foreground mt-2">
+            Create and manage your analytics dashboards
+          </p>
         </div>
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <DialogTrigger asChild>
@@ -95,7 +110,9 @@ export default function DashboardsPage() {
           <DialogContent>
             <DialogHeader>
               <DialogTitle>Create New Dashboard</DialogTitle>
-              <DialogDescription>Give your dashboard a name to get started.</DialogDescription>
+              <DialogDescription>
+                Give your dashboard a name to get started.
+              </DialogDescription>
             </DialogHeader>
             <div className="grid gap-4 py-4">
               <div className="grid gap-2">
@@ -130,14 +147,20 @@ export default function DashboardsPage() {
                 </div>
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" size="icon" className="absolute right-4 top-4">
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="absolute right-4 top-4"
+                    >
                       <MoreHorizontal className="h-4 w-4" />
                       <span className="sr-only">Open menu</span>
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end">
                     <DropdownMenuItem asChild>
-                      <Link href={`/dashboard/${dashboard.id}`}>View Dashboard</Link>
+                      <Link href={`/dashboard/${dashboard.id}`}>
+                        View Dashboard
+                      </Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem>Rename</DropdownMenuItem>
                     <DropdownMenuItem
@@ -149,21 +172,28 @@ export default function DashboardsPage() {
                   </DropdownMenuContent>
                 </DropdownMenu>
               </div>
-              <CardDescription className="mt-2">{dashboard.description}</CardDescription>
+              <CardDescription className="mt-2">
+                {dashboard.description}
+              </CardDescription>
             </CardHeader>
             <CardContent>
               <div className="flex items-center justify-between text-sm text-muted-foreground">
                 <div className="flex items-center gap-1">
                   <span>Created by </span>
-                  <span className="font-medium text-foreground">{dashboard.createdBy.name}</span>
+                  <span className="font-medium text-foreground">
+                    {dashboard.createdBy.name}
+                  </span>
                 </div>
                 <div>
                   Last updated{" "}
-                  {new Date(dashboard.lastUpdated).toLocaleDateString(undefined, {
-                    month: "short",
-                    day: "numeric",
-                    year: "numeric",
-                  })}
+                  {new Date(dashboard.lastUpdated).toLocaleDateString(
+                    undefined,
+                    {
+                      month: "short",
+                      day: "numeric",
+                      year: "numeric",
+                    }
+                  )}
                 </div>
               </div>
             </CardContent>
@@ -171,6 +201,5 @@ export default function DashboardsPage() {
         ))}
       </div>
     </div>
-  )
+  );
 }
-
