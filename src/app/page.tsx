@@ -40,26 +40,6 @@ export default function DashboardsPage() {
       lastUpdated: "2024-02-12T09:00:00Z",
     },
   ]);
-  const [newDashboardName, setNewDashboardName] = useState("");
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
-
-  const createDashboard = () => {
-    if (newDashboardName.trim()) {
-      const newDashboard: Dashboard = {
-        id: Math.random().toString(),
-        name: newDashboardName,
-        description: "New dashboard description",
-        createdBy: {
-          name: "Current User",
-          email: "user@example.com",
-        },
-        lastUpdated: new Date().toISOString(),
-      };
-      setDashboards([...dashboards, newDashboard]);
-      setNewDashboardName("");
-      setIsDialogOpen(false);
-    }
-  };
 
   const deleteDashboard = (id: string) => {
     setDashboards(dashboards.filter((dashboard) => dashboard.id !== id));
