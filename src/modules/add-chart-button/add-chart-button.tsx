@@ -1,7 +1,7 @@
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { useCallback, useState } from "react";
-import { Button } from "@/components/ui/button";
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { useCallback, useState } from 'react';
+import { Button } from '@/components/ui/button';
 import {
   Dialog,
   DialogContent,
@@ -10,7 +10,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog";
+} from '@/components/ui/dialog';
 import {
   Plus,
   BarChartIcon,
@@ -18,16 +18,16 @@ import {
   LineChartIcon,
   Check,
   ChevronsUpDown,
-} from "lucide-react";
+} from 'lucide-react';
 
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { RadioGroup } from '@/components/ui/radio-group';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
+} from '@/components/ui/select';
 import {
   Command,
   CommandEmpty,
@@ -35,13 +35,14 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from "@/components/ui/command";
+} from '@/components/ui/command';
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover";
-import { cn } from "@/lib/utils";
+} from '@/components/ui/popover';
+import { cn } from '@/lib/utils';
+import { FeatureRadioButton } from '@/components/feature-radio-button';
 
 type QuestionId = string;
 type SurveyId = string;
@@ -59,48 +60,48 @@ type Survey = {
 
 const multipleChoiceQuestions = [
   {
-    id: "q1",
-    question: "What is your role?",
-    surveyName: "User Onboarding",
+    id: 'q1',
+    question: 'What is your role?',
+    surveyName: 'User Onboarding',
   },
   {
-    id: "q2",
-    question: "How satisfied are you with the product?",
-    surveyName: "Customer Satisfaction",
+    id: 'q2',
+    question: 'How satisfied are you with the product?',
+    surveyName: 'Customer Satisfaction',
   },
   {
-    id: "q3",
-    question: "Which feature do you use most?",
-    surveyName: "Feature Usage",
+    id: 'q3',
+    question: 'Which feature do you use most?',
+    surveyName: 'Feature Usage',
   },
 ] satisfies Question[];
 
 const surveys = [
   {
-    id: "s1",
-    name: "User Onboarding",
+    id: 's1',
+    name: 'User Onboarding',
   },
   {
-    id: "s2",
-    name: "Customer Satisfaction",
+    id: 's2',
+    name: 'Customer Satisfaction',
   },
   {
-    id: "s3",
-    name: "Feature Usage",
+    id: 's3',
+    name: 'Feature Usage',
   },
 ] satisfies Survey[];
 
-type ChartStyle = "bar" | "pie" | "distribution";
+type ChartStyle = 'bar' | 'pie' | 'distribution';
 
 type Chart =
   | {
       name: string;
-      chartStyle?: "bar" | "pie";
+      chartStyle?: 'bar' | 'pie';
       dataSource?: QuestionId;
     }
   | {
       name: string;
-      chartStyle?: "distribution";
+      chartStyle?: 'distribution';
       dataSource?: SurveyId[];
     };
 
@@ -137,7 +138,7 @@ export function AddChartButton({ onAdd }: AddChartButtonProps) {
             <Label htmlFor="chart-name">Chart name</Label>
             <Input
               id="chart-name"
-              value={chart?.name ?? ""}
+              value={chart?.name ?? ''}
               onChange={(e) => {
                 setChart((prevChart) => ({
                   ...prevChart,
@@ -160,46 +161,25 @@ export function AddChartButton({ onAdd }: AddChartButtonProps) {
               }}
               className="grid grid-cols-3 gap-4"
             >
-              <div>
-                <RadioGroupItem value="bar" id="bar" className="peer sr-only" />
-                <Label
-                  htmlFor="bar"
-                  className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
-                >
-                  <BarChartIcon className="mb-3 h-6 w-6" />
-                  Bar Chart
-                </Label>
-              </div>
-              <div>
-                <RadioGroupItem value="pie" id="pie" className="peer sr-only" />
-                <Label
-                  htmlFor="pie"
-                  className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
-                >
-                  <PieChartIcon className="mb-3 h-6 w-6" />
-                  Pie Chart
-                </Label>
-              </div>
-              <div>
-                <RadioGroupItem
-                  value="distribution"
-                  id="distribution"
-                  className="peer sr-only"
-                />
-                <Label
-                  htmlFor="distribution"
-                  className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
-                >
-                  <LineChartIcon className="mb-3 h-6 w-6" />
-                  Distribution
-                </Label>
-              </div>
+              <FeatureRadioButton value="bar" id="bar" icon={BarChartIcon}>
+                Bar
+              </FeatureRadioButton>
+              <FeatureRadioButton value="pie" id="pie" icon={PieChartIcon}>
+                Pie
+              </FeatureRadioButton>
+              <FeatureRadioButton
+                value="distribution"
+                id="distribution"
+                icon={LineChartIcon}
+              >
+                Distribution
+              </FeatureRadioButton>
             </RadioGroup>
           </div>
           <div className="grid gap-2">
             <Label>Data source</Label>
             {chart?.chartStyle &&
-            (chart.chartStyle === "bar" || chart.chartStyle === "pie") ? (
+            (chart.chartStyle === 'bar' || chart.chartStyle === 'pie') ? (
               <Select
                 value={chart.dataSource}
                 onValueChange={(value) =>
@@ -217,7 +197,7 @@ export function AddChartButton({ onAdd }: AddChartButtonProps) {
                     <SelectItem key={q.id} value={q.id}>
                       <div className="flex flex-col">
                         <span>{q.question}</span>
-                        <span className="text-xs text-muted-foreground">
+                        <span className="text-muted-foreground text-xs">
                           from {q.surveyName}
                         </span>
                       </div>
@@ -225,7 +205,7 @@ export function AddChartButton({ onAdd }: AddChartButtonProps) {
                   ))}
                 </SelectContent>
               </Select>
-            ) : chart?.chartStyle === "distribution" ? (
+            ) : chart?.chartStyle === 'distribution' ? (
               <Popover open={isSelectOpen} onOpenChange={setIsSelectOpen}>
                 <PopoverTrigger asChild>
                   <Button
@@ -235,7 +215,7 @@ export function AddChartButton({ onAdd }: AddChartButtonProps) {
                     className="w-full justify-between"
                   >
                     {!chart.dataSource || chart.dataSource?.length === 0
-                      ? "Select surveys"
+                      ? 'Select surveys'
                       : `${chart.dataSource.length} selected`}
                     <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                   </Button>
@@ -263,10 +243,10 @@ export function AddChartButton({ onAdd }: AddChartButtonProps) {
                         >
                           <Check
                             className={cn(
-                              "mr-2 h-4 w-4",
+                              'mr-2 h-4 w-4',
                               chart.dataSource?.length === surveys.length
-                                ? "opacity-100"
-                                : "opacity-0"
+                                ? 'opacity-100'
+                                : 'opacity-0'
                             )}
                           />
                           Select all
@@ -277,7 +257,7 @@ export function AddChartButton({ onAdd }: AddChartButtonProps) {
                             onSelect={() => {
                               setChart((previousChart) => {
                                 if (
-                                  previousChart?.chartStyle !== "distribution"
+                                  previousChart?.chartStyle !== 'distribution'
                                 ) {
                                   // Ignore if chart style is not distribution
                                   return previousChart;
@@ -302,10 +282,10 @@ export function AddChartButton({ onAdd }: AddChartButtonProps) {
                           >
                             <Check
                               className={cn(
-                                "mr-2 h-4 w-4",
+                                'mr-2 h-4 w-4',
                                 chart?.dataSource?.includes(survey.id)
-                                  ? "opacity-100"
-                                  : "opacity-0"
+                                  ? 'opacity-100'
+                                  : 'opacity-0'
                               )}
                             />
                             {survey.name}
@@ -328,7 +308,7 @@ export function AddChartButton({ onAdd }: AddChartButtonProps) {
             disabled={
               !chart?.name ||
               !chart?.chartStyle ||
-              (chart.chartStyle === "distribution"
+              (chart.chartStyle === 'distribution'
                 ? chart.dataSource?.length === 0
                 : !chart.dataSource)
             }
