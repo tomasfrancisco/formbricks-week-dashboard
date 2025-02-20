@@ -41,7 +41,7 @@ export function NewDashboardButton({ onCreate }: NewDashboardButtonProps) {
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <DialogTrigger asChild>
         <Button>
-          New Dashboard
+          Add Chart
           <Plus className="mr-2 h-4 w-4" />
         </Button>
       </DialogTrigger>

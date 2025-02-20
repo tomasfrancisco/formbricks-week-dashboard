@@ -3,7 +3,6 @@
 import { useState } from "react";
 
 import { DashboardCard } from "@/components/dashboard-card/dashboard-card";
-import { NewDashboardButton } from "@/modules/new-dashboard-button/new-dashboard-button";
 
 interface Dashboard {
   id: string;
@@ -46,23 +45,18 @@ export default function DashboardsPage() {
   };
 
   return (
-    <div className="container py-8">
-      <div className="flex items-center justify-between mb-8">
-        <NewDashboardButton onCreate={() => {}} />
-      </div>
-      <div className="flex flex-wrap gap-6">
-        {dashboards.map((dashboard) => (
-          <DashboardCard
-            href={`/dashboard/${dashboard.id}`}
-            key={dashboard.id}
-            createdBy={dashboard.createdBy.name}
-            description={dashboard.description}
-            lastUpdatedAt={dashboard.lastUpdated}
-            onDelete={() => deleteDashboard(dashboard.id)}
-            title={dashboard.name}
-          />
-        ))}
-      </div>
+    <div className="flex flex-wrap gap-6">
+      {dashboards.map((dashboard) => (
+        <DashboardCard
+          href={`/dashboard/${dashboard.id}`}
+          key={dashboard.id}
+          createdBy={dashboard.createdBy.name}
+          description={dashboard.description}
+          lastUpdatedAt={dashboard.lastUpdated}
+          onDelete={() => deleteDashboard(dashboard.id)}
+          title={dashboard.name}
+        />
+      ))}
     </div>
   );
 }

@@ -6,8 +6,9 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { formatDistance } from "date-fns";
 
-import { MoreHorizontal, LayoutDashboard } from "lucide-react";
+import { MoreVertical, Trash } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -34,36 +35,29 @@ export function DashboardCard({
   href,
 }: DashboardCardProps) {
   return (
-    <Link href={href}>
-      <Card className="relative">
+    <Link href={href} className="group">
+      <Card className="relative group-hover:bg-secondary">
         <CardHeader>
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-muted/50">
-                <LayoutDashboard className="h-5 w-5 text-muted-foreground" />
-              </div>
-              <CardTitle className="truncate">{title}</CardTitle>
+              <CardTitle className="truncate group-hover:underline">
+                {title}
+              </CardTitle>
             </div>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button
-                  variant="ghost"
+                  variant="outline"
                   size="icon"
                   className="absolute right-4 top-4"
                 >
-                  <MoreHorizontal className="h-4 w-4" />
+                  <MoreVertical className="h-4 w-4" />
                   <span className="sr-only">Open menu</span>
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
-                {/* <DropdownMenuItem asChild>
-                <Link href={`/dashboard/${dashboard.id}`}>View Dashboard</Link>
-              </DropdownMenuItem> */}
-                <DropdownMenuItem
-                  className="text-destructive focus:text-destructive"
-                  onClick={onDelete}
-                >
-                  Delete
+                <DropdownMenuItem onClick={onDelete}>
+                  <Trash className="text-current" /> Delete
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
@@ -71,17 +65,15 @@ export function DashboardCard({
           <CardDescription className="mt-2">{description}</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="flex items-center justify-between text-sm text-muted-foreground">
+          <div className="flex items-center justify-between text-sm text-muted-foreground gap-4 leading-normal">
             <div className="flex items-center gap-1">
               <span>Created by </span>
-              <span className="font-medium text-foreground">{createdBy}</span>
+              <span className="font-bold">{createdBy}</span>
             </div>
             <div>
-              Last updated{" "}
-              {new Date(lastUpdatedAt).toLocaleDateString(undefined, {
-                month: "short",
-                day: "numeric",
-                year: "numeric",
+              Updated{" "}
+              {formatDistance(new Date(lastUpdatedAt), new Date(), {
+                addSuffix: true,
               })}
             </div>
           </div>
